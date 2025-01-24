@@ -257,6 +257,7 @@ def validate(model, dataloader, tokenizer, device="cuda"):
                     post_hoc_bandwidth_enc=bandwidth_enc,
                     post_hoc_bandwidth_dec=bandwidth_dec,
                     temperature=0.0,
+                    beam_size=5,
                 )["text"]
 
                 cer = compute_cer(ref_text, predicted_text)

@@ -162,7 +162,11 @@ class PyTorchInference(Inference):
             # only need to use the last token except in the first forward pass
             tokens = tokens[:, -1:]
 
-        return self.model.decoder(tokens, audio_features, kv_cache=self.kv_cache, bandwidth=self.bandwidth_dec) / (abs(self.post_hoc_temperature) + 1e-6)
+        if self.post_hoc_temperature is not None:
+            return self.model.decoder(tokens, audio_features, kv_cache=self.kv_cache, bandwidth=self.bandwidth_dec) / (abs(self.post_hoc_temperature) + 1e-6)
+        else:
+            return self.model.decoder(tokens, audio_features, kv_cache=self.kv_cache, bandwidth=self.bandwidth_dec)
+        
 
     def cleanup_caching(self):
         for hook in self.hooks:

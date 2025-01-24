@@ -26,6 +26,13 @@ if 'path' not in data.columns or 'sentence' not in data.columns:
 model = whisper.load_model(model_size)
 model.eval()
 
+# Check model size (number of parameters)
+num_params = 0
+for name, param in model.named_parameters():
+    num_params += param.numel()
+print('Model name:', model_size)
+print(f"Model size: {num_params} parameters")
+
 # Function to transcribe audio and compute WER
 def calculate_wer(audio_paths, references):
     predictions = []
